@@ -5,7 +5,7 @@
 # Usage (as a normal user with sudo):
 #   curl -fsSL https://raw.githubusercontent.com/YashDayani/local_manifests_kyoto/vic/build-linux.sh | bash
 # Re-running skips steps that are already done; set VARIANT=user for a user build.
-# COMPOSE_QS=off / VOLUME_REDESIGN=off build without those UI experiments.
+# COMPOSE_QS=off / VOLUME_REDESIGN=off / BUBBLE_ANYTHING=off / LAUNCHER3=off skip UI experiments.
 set -euo pipefail
 
 if [[ $(uname -s) != Linux || $(uname -m) != x86_64 ]]; then
@@ -60,9 +60,15 @@ bash vendor/motorola/MotCamera4-kyoto/reassemble.sh
 # kyoto source patches (SystemUI QS settings cache, ...)
 bash device/motorola/kyoto/patches/apply.sh
 
-# Experimental UI flags: Compose QS with resizable tiles, new volume dialog
-# (COMPOSE_QS=off / VOLUME_REDESIGN=off to skip either)
+# Experimental UI flags: Compose QS with resizable tiles, new volume dialog, app bubbles
+# (COMPOSE_QS=off / VOLUME_REDESIGN=off / BUBBLE_ANYTHING=off to skip one)
 bash device/motorola/kyoto/experiments/flags/apply.sh
+
+# Experiment: Launcher3 QuickStep instead of Pixel Launcher, needed for app bubbles
+# (LAUNCHER3=off to keep Pixel Launcher)
+if [[ ${LAUNCHER3:-on} != off ]]; then
+  bash device/motorola/kyoto/patches/apply.sh device/motorola/kyoto/experiments/launcher3
+fi
 
 source build/envsetup.sh
 lunch "lineage_kyoto-bp1a-${VARIANT}"

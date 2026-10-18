@@ -21,9 +21,15 @@ bash vendor/motorola/MotCamera4-kyoto/reassemble.sh
 # kyoto source patches (SystemUI QS settings cache, ...)
 bash device/motorola/kyoto/patches/apply.sh
 
-# Experimental UI flags: Compose QS with resizable tiles, new volume dialog
-# (COMPOSE_QS=off / VOLUME_REDESIGN=off to skip either)
+# Experimental UI flags: Compose QS with resizable tiles, new volume dialog, app bubbles
+# (COMPOSE_QS=off / VOLUME_REDESIGN=off / BUBBLE_ANYTHING=off to skip one)
 bash device/motorola/kyoto/experiments/flags/apply.sh
+
+# Experiment: Launcher3 QuickStep instead of Pixel Launcher, needed for app bubbles
+# (LAUNCHER3=off to keep Pixel Launcher)
+if [[ ${LAUNCHER3:-on} != off ]]; then
+  bash device/motorola/kyoto/patches/apply.sh device/motorola/kyoto/experiments/launcher3
+fi
 
 source build/envsetup.sh
 lunch "lineage_kyoto-bp1a-${VARIANT}"
