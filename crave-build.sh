@@ -18,6 +18,9 @@ git clone --depth 1 -b vic "https://github.com/${GITHUB_USER}/local_manifests_ky
 bash vendor/motorola/kyoto/reassemble.sh
 bash vendor/motorola/MotCamera4-kyoto/reassemble.sh
 
+# kyoto source patches (SystemUI QS settings cache, ...)
+bash device/motorola/kyoto/patches/apply.sh
+
 # Experiment: Compose Quick Settings with resizable tiles (COMPOSE_QS=off to skip)
 bash device/motorola/kyoto/experiments/compose-qs/apply.sh "${COMPOSE_QS:-on}"
 

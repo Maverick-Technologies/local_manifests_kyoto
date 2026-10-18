@@ -57,6 +57,9 @@ bash vendor/motorola/kyoto/reassemble.sh
 bash vendor/motorola/MotCamera4-kyoto/reassemble.sh
 
 # 5. Build
+# kyoto source patches (SystemUI QS settings cache, ...)
+bash device/motorola/kyoto/patches/apply.sh
+
 # Experiment: Compose Quick Settings with resizable tiles (COMPOSE_QS=off to skip)
 bash device/motorola/kyoto/experiments/compose-qs/apply.sh "${COMPOSE_QS:-on}"
 
