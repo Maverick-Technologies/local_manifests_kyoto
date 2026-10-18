@@ -49,8 +49,18 @@ fi
 rm -rf .repo/local_manifests
 git clone --depth 1 -b vic "https://github.com/${GITHUB_USER}/local_manifests_kyoto" .repo/local_manifests
 
-# 3. Sync (first time downloads ~100+ GB)
-repo sync -c -j"$JOBS" --force-sync --no-clone-bundle --no-tags
+# 3. Sync (first time downloads ~100+ GB). Google's git servers rate-limit many parallel
+# fetches (HTTP 429 / RESOURCE_EXHAUSTED), so keep the job count modest and retry; a retry
+# only fetches the projects that failed.
+SYNC_JOBS=${SYNC_JOBS:-$(( JOBS < 8 ? JOBS : 8 ))}
+for attempt in 1 2 3 4; do
+  if repo sync -c -j"$SYNC_JOBS" --force-sync --no-clone-bundle --no-tags --retry-fetches=5; then
+    break
+  fi
+  [[ $attempt == 4 ]] && { echo "repo sync failed 4 times"; exit 1; }
+  echo "== repo sync attempt $attempt failed, retrying in $((attempt * 60)) s"
+  sleep $((attempt * 60))
+done
 
 # 4. Large prebuilts are stored as <100 MB parts
 bash vendor/motorola/kyoto/reassemble.sh
