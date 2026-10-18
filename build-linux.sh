@@ -3,7 +3,7 @@
 # Needs ~32 GB RAM (64 GB better), ~400 GB free disk, a fast connection.
 #
 # Usage (as a normal user with sudo):
-#   curl -fsSL https://raw.githubusercontent.com/YashDayani/local_manifests_kyoto/vic/build-linux.sh | bash
+#   curl -fsSL https://raw.githubusercontent.com/Maverick-Technologies/local_manifests_kyoto/vic/build-linux.sh | bash
 # Re-running skips steps that are already done; set VARIANT=user for a user build.
 # COMPOSE_QS=off / VOLUME_REDESIGN=off / BUBBLE_ANYTHING=off / LAUNCHER3=off skip UI experiments.
 set -euo pipefail
@@ -14,7 +14,7 @@ if [[ $(uname -s) != Linux || $(uname -m) != x86_64 ]]; then
   exit 1
 fi
 
-GITHUB_USER=${GITHUB_USER:-YashDayani}
+GITHUB_USER=${GITHUB_USER:-Maverick-Technologies}
 VARIANT=${VARIANT:-userdebug}
 SRC=${SRC:-$HOME/evox}
 JOBS=${JOBS:-$(nproc --all)}

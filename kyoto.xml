@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
   Evolution X 10 (vic, Android 15) for Motorola edge 20 fusion / lite (kyoto).
-  Hosted under github.com/YashDayani.
+  Hosted under github.com/Maverick-Technologies.
 -->
 <manifest>
-  <remote name="kyoto" fetch="https://github.com/YashDayani" />
+  <remote name="kyoto" fetch="https://github.com/Maverick-Technologies" />
 
   <project path="device/motorola/kyoto"
            name="device_motorola_kyoto"

@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
 # Build Evolution X 10 for kyoto on crave.io.
 # Run from your Evolution X crave workspace (see README.md), e.g.:
-#   crave run --no-patch -- "bash <(curl -fsSL https://raw.githubusercontent.com/YashDayani/local_manifests_kyoto/vic/crave-build.sh)"
+#   crave run --no-patch -- "bash <(curl -fsSL https://raw.githubusercontent.com/Maverick-Technologies/local_manifests_kyoto/vic/crave-build.sh)"
 set -euo pipefail
 
-GITHUB_USER=${GITHUB_USER:-YashDayani}
+GITHUB_USER=${GITHUB_USER:-Maverick-Technologies}
 VARIANT=${VARIANT:-userdebug}
 
 # Local manifest with the kyoto device, vendor and Moto Camera repositories

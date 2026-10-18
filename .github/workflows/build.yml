@@ -1,0 +1,84 @@
+# Build Evolution X 10 (Android 15) for kyoto on a Blacksmith runner.
+# Start it from Actions > Build kyoto > Run workflow. Every run syncs the full source (~100 GB)
+# and builds from scratch; the flashable zip, boot.img and the build log are uploaded as artifacts.
+name: Build kyoto
+
+on:
+  workflow_dispatch:
+    inputs:
+      variant:
+        description: Build variant
+        type: choice
+        options: [userdebug, user]
+        default: userdebug
+      compose_qs:
+        description: Compose Quick Settings with resizable tiles
+        type: boolean
+        default: true
+      volume_redesign:
+        description: New volume dialog
+        type: boolean
+        default: true
+      bubble_anything:
+        description: Bubble in the app long-press menu
+        type: boolean
+        default: true
+      launcher3:
+        description: Launcher3 QuickStep instead of Pixel Launcher
+        type: boolean
+        default: true
+
+concurrency:
+  group: build-kyoto
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: blacksmith-32vcpu-ubuntu-2204
+    timeout-minutes: 480
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        env:
+          VARIANT: ${{ inputs.variant }}
+          COMPOSE_QS: ${{ inputs.compose_qs && 'on' || 'off' }}
+          VOLUME_REDESIGN: ${{ inputs.volume_redesign && 'on' || 'off' }}
+          BUBBLE_ANYTHING: ${{ inputs.bubble_anything && 'on' || 'off' }}
+          LAUNCHER3: ${{ inputs.launcher3 && 'on' || 'off' }}
+          GITHUB_USER: ${{ github.repository_owner }}
+          SRC: ${{ runner.temp }}/evox
+        run: bash build-linux.sh
+
+      - name: Collect output
+        if: always()
+        run: |
+          mkdir -p out
+          OUT="$RUNNER_TEMP/evox/out/target/product/kyoto"
+          cp "$RUNNER_TEMP/evox/build-kyoto.log" out/ 2>/dev/null || true
+          cp "$OUT"/*.zip "$OUT"/boot.img out/ 2>/dev/null || true
+          (cd out && sha256sum * > SHA256SUMS 2>/dev/null) || true
+          ls -lh out
+
+      - name: Upload ROM
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kyoto-${{ inputs.variant }}-${{ github.run_number }}
+          path: |
+            out/*.zip
+            out/boot.img
+            out/SHA256SUMS
+          compression-level: 0
+          retention-days: 14
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log-${{ github.run_number }}
+          path: out/build-kyoto.log
+          if-no-files-found: ignore
+          retention-days: 14
