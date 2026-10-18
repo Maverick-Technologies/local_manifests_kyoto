@@ -8,6 +8,12 @@
 # COMPOSE_QS=off builds without the Compose Quick Settings experiment.
 set -euo pipefail
 
+if [[ $(uname -s) != Linux || $(uname -m) != x86_64 ]]; then
+  echo "This must run on an x86-64 Linux machine (Ubuntu 22.04/24.04), not $(uname -s) $(uname -m)."
+  echo "Android 15 cannot be built on macOS. Run this command on your Linux PC instead."
+  exit 1
+fi
+
 GITHUB_USER=${GITHUB_USER:-YashDayani}
 VARIANT=${VARIANT:-userdebug}
 SRC=${SRC:-$HOME/evox}
