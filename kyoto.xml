@@ -20,4 +20,9 @@
            name="vendor_motorola_MotCamera4-kyoto"
            remote="kyoto"
            revision="vic" />
+
+  <project path="vendor/motorola/motoapps-kyoto"
+           name="vendor_motorola_motoapps-kyoto"
+           remote="kyoto"
+           revision="vic" />
 </manifest>
