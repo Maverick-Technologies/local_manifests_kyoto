@@ -5,7 +5,7 @@
 # Usage (as a normal user with sudo):
 #   curl -fsSL https://raw.githubusercontent.com/YashDayani/local_manifests_kyoto/vic/build-linux.sh | bash
 # Re-running skips steps that are already done; set VARIANT=user for a user build.
-# COMPOSE_QS=off builds without the Compose Quick Settings experiment.
+# COMPOSE_QS=off / VOLUME_REDESIGN=off build without those UI experiments.
 set -euo pipefail
 
 if [[ $(uname -s) != Linux || $(uname -m) != x86_64 ]]; then
@@ -60,8 +60,9 @@ bash vendor/motorola/MotCamera4-kyoto/reassemble.sh
 # kyoto source patches (SystemUI QS settings cache, ...)
 bash device/motorola/kyoto/patches/apply.sh
 
-# Experiment: Compose Quick Settings with resizable tiles (COMPOSE_QS=off to skip)
-bash device/motorola/kyoto/experiments/compose-qs/apply.sh "${COMPOSE_QS:-on}"
+# Experimental UI flags: Compose QS with resizable tiles, new volume dialog
+# (COMPOSE_QS=off / VOLUME_REDESIGN=off to skip either)
+bash device/motorola/kyoto/experiments/flags/apply.sh
 
 source build/envsetup.sh
 lunch "lineage_kyoto-bp1a-${VARIANT}"

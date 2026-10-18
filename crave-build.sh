@@ -21,8 +21,9 @@ bash vendor/motorola/MotCamera4-kyoto/reassemble.sh
 # kyoto source patches (SystemUI QS settings cache, ...)
 bash device/motorola/kyoto/patches/apply.sh
 
-# Experiment: Compose Quick Settings with resizable tiles (COMPOSE_QS=off to skip)
-bash device/motorola/kyoto/experiments/compose-qs/apply.sh "${COMPOSE_QS:-on}"
+# Experimental UI flags: Compose QS with resizable tiles, new volume dialog
+# (COMPOSE_QS=off / VOLUME_REDESIGN=off to skip either)
+bash device/motorola/kyoto/experiments/flags/apply.sh
 
 source build/envsetup.sh
 lunch "lineage_kyoto-bp1a-${VARIANT}"
