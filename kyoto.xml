@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Evolution X 10 (vic, Android 15) for Motorola edge 20 fusion / lite (kyoto).
+  Hosted under github.com/YashDayani.
+-->
+<manifest>
+  <remote name="kyoto" fetch="https://github.com/YashDayani" />
+
+  <project path="device/motorola/kyoto"
+           name="device_motorola_kyoto"
+           remote="kyoto"
+           revision="vic" />
+
+  <project path="vendor/motorola/kyoto"
+           name="vendor_motorola_kyoto"
+           remote="kyoto"
+           revision="vic" />
+
+  <project path="vendor/motorola/MotCamera4-kyoto"
+           name="vendor_motorola_MotCamera4-kyoto"
+           remote="kyoto"
+           revision="vic" />
+</manifest>
