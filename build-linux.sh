@@ -80,6 +80,8 @@ if [[ ${LAUNCHER3:-on} != off ]]; then
   bash device/motorola/kyoto/patches/apply.sh device/motorola/kyoto/experiments/launcher3
 fi
 
+# envsetup.sh/lunch read unset variables, which set -u would abort on
+set +u
 source build/envsetup.sh
 lunch "lineage_kyoto-bp1a-${VARIANT}"
 m evolution 2>&1 | tee "$SRC/build-kyoto.log"
